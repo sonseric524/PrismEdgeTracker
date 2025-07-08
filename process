@@ -1,0 +1,21 @@
+
+---
+
+### 🐍 `tracker/main.py`
+```python
+import sys
+from edge_collector import load_logs
+from scoring import score_event
+from notifier import send_alert
+
+def process(file_path):
+    for log in load_logs(file_path):
+        score = score_event(log)
+        if score > 0.85:
+            send_alert(log, score)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python main.py <logfile>")
+        sys.exit(1)
+    process(sys.argv[1])
