@@ -1,0 +1,12 @@
+import re
+
+def score_event(event: dict) -> float:
+    text = event.get("message", "").lower()
+
+    if "unauthorized" in text or "denied" in text:
+        return 0.95
+    if re.search(r"(sql|cmd|injection)", text):
+        return 0.9
+    if "timeout" in text or "unreachable" in text:
+        return 0.6
+    return 0.2
